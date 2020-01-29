@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for purchase in purchases %}
+        {{ purchase.product.title }} <br> COUNT: {{ purchase.quantity }}, <br> TIME: {{ purchase.created_at }} <br>
+
+        <form action="{% url 'return_create' %}" method="post">
+            {% csrf_token %}
+
+            <input type="hidden" name="purchase" required id="id_purchase" value="{{ purchase.pk }}">
+
+            <input type="submit" value="Return">
+        </form>
+        <br>
+
+
+
+    {% endfor %}
+{% endblock %}

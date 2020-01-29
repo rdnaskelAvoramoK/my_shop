@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My test shop</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"
+            integrity="sha256-xI/qyl9vpwWFOXz7+x/9WkG5j/SVnSw21viy8fWwbeE="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+
+        <ul class="navbar-nav ml-auto">
+
+            {% if not request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+                </li>
+            {% else %}
+            User:<h3>{{ user.username }}</h3> <p>CASH {{ user.cash }}</p>
+                <li class="nav-item">
+
+                    <a class="nav-link" href="{% url 'logout' %}">Sign Off</a>
+                </li>
+              {% if request.user.is_staff %}
+            <li class="nav-item">
+                    <a class="nav-link" href="{% url 'product_create' %}">Product_create</a>
+            </li>
+             {% endif %}
+            {% endif %}
+        </ul>
+
+    </div>
+</nav>
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
+{% block scripts %}
+{% endblock %}
