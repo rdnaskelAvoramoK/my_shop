@@ -100,7 +100,7 @@ class ReturnCreate(CreateView):
 
     def form_valid(self, form):
         purchase_time = form.cleaned_data['purchase'].created_at
-        contr_time = timezone.now() - timedelta(minutes=1)
+        contr_time = timezone.now() - timedelta(minutes=3)
         if purchase_time <= contr_time:
             return redirect("purchase_error")
         return super().form_valid(form)
