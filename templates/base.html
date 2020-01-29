@@ -16,11 +16,17 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
+{% if request.user.is_authenticated %}
+User:{{ user.username }} CASH : {{ user.cash }}
+
+{% endif %}
 
 <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
 
         <ul class="navbar-nav ml-auto">
-
+            <li class="nav-item">
+                    <a class="nav-link" href="{% url 'list' %}">Start Page</a>
+                </li>
             {% if not request.user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'login' %}">Sign In</a>
@@ -29,21 +35,22 @@
                     <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
                 </li>
             {% else %}
-            User:<h3>{{ user.username }}</h3> <p>CASH {{ user.cash }}</p>
-                <li class="nav-item">
-
-                    <a class="nav-link" href="{% url 'logout' %}">Sign Off</a>
-                </li>
+                <a class="nav-link" href="{% url 'purchase_list' %}">Purchase List</a>
               {% if request.user.is_staff %}
             <li class="nav-item">
                     <a class="nav-link" href="{% url 'product_create' %}">Product_create</a>
             </li>
              {% endif %}
+                <li class="nav-item">
+
+                    <a class="nav-link" href="{% url 'logout' %}">Sign Off</a>
+                </li>
+
             {% endif %}
         </ul>
-
-    </div>
 </nav>
+
+
 {% block content %}
 {% endblock %}
 

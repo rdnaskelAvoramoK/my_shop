@@ -1,7 +1,10 @@
 # Create your views here.
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import ListView, CreateView, DeleteView, TemplateView
+from django.views.generic import ListView, CreateView, DeleteView, TemplateView, UpdateView
+from datetime import timedelta
+
+from django.utils import timezone
 
 from catalogue.forms import ProductForm, PurchaseForm, ReturnForm
 from catalogue.models import Product, Purchase, Return
@@ -27,7 +30,14 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     http_method_names = ['get', 'post']
     success_url = '/create/'
     form_class = ProductForm
-    template_name = 'list/create.html'
+    template_name = 'list/product_create.html'
+
+
+class ProductUpdate(LoginRequiredMixin, UpdateView):
+    model = Product
+    template_name = 'list/product_update.html'
+    success_url = '/'
+    form_class = ProductForm
 
 
 class ProductDelete(LoginRequiredMixin, DeleteView):
@@ -89,7 +99,11 @@ class ReturnCreate(CreateView):
     form_class = ReturnForm
 
     def form_valid(self, form):
+        purchase_time = form.cleaned_data['purchase'].created_at
+        contr_time = timezone.now() - timedelta(minutes=1)
+        if purchase_time <= contr_time:
+            return redirect("purchase_error")
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        return super().form_invalid(form)
+        return redirect("purchase_error")

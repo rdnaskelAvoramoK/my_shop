@@ -13,6 +13,18 @@
                         {{ buy_form }}
                     <input type="submit" value="Buy">
                </form>
+                     {% if request.user.is_staff %}
+
+{#                        <form  action="{% url 'product_update' goods.pk %}" method="post">#}
+{#                        {% csrf_token %}#}
+{#                    <input type="submit" value="Update">#}
+{##}
+{#               </form>#}
+
+
+                    <a class="nav-link" href="{% url 'product_update' goods.pk %}">Update</a>
+             {% endif %}
+
                     <br>
                 {% endif %}
 
